@@ -1,0 +1,14 @@
+substitutions:
+    _IMAGE_NAME: gcr.io/${PROJECT_ID}/ml/openvino-notebooks:${SHORT_SHA}
+options:
+    dynamic_substitutions: true
+    substitution_option: 'ALLOW_LOOSE'
+
+steps:
+- id: build
+  name: gcr.io/kaniko-project/executor:v1.9.1
+  args:
+  - --dockerfile=Dockerfile
+  - --context=.
+  - --destination=${_IMAGE_NAME}
+  - --cache=true

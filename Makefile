@@ -27,3 +27,9 @@ check_install:
 convert_notebooks: venv cache_openvino_packages install_dependencies check_install
 	@echo Running notebooks
 	@. $(ACTIVATE); bash .ci/convert_notebooks.sh
+
+submit_build:
+	gcloud builds submit \
+		--project ml-shared-c-c41d \
+		--substitutions SHORT_SHA=dirty.$(shell git rev-list --count $(shell git branch --show-current)) \
+		--async
